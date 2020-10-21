@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skelly_Emerge : MonoBehaviour {
+public class Skelly_Emerge : MonoBehaviour
+{
     private Animator anim;
-	// Use this for initialization
-	void Start () {
+
+	void Start ()
+    {
         anim = GetComponentInParent<Animator>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -19,6 +16,5 @@ public class Skelly_Emerge : MonoBehaviour {
         if (other.tag == "Player") {
             anim.enabled = true;
         }
-
     }
 }

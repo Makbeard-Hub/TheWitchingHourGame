@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.UI;
 
-public class GameManagement : MonoBehaviour {
+public class GameManagement : MonoBehaviour
+{
     public GameObject Wave1;
     public GameObject Wave2;
     public GameObject Wave3;
@@ -32,8 +33,8 @@ public class GameManagement : MonoBehaviour {
     private bool levelBeat;
     private bool gameBeat;
 
-    // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         gameLevel = 0;
         enemyList = new GameObject[1];
         enemyCount = 0;
@@ -42,9 +43,10 @@ public class GameManagement : MonoBehaviour {
         gameBeat = false;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        if (!gameStarted) {
+	void Update ()
+    {
+        if (!gameStarted)
+        {
             bigFire.SetActive(true);
             barrier.SetActive(false);
         }
@@ -53,8 +55,6 @@ public class GameManagement : MonoBehaviour {
             counter.text = ("Targets Remaining: " + enemyCount);
             if (enemyCount == 0 && gameStarted)
             {
-                //gameLevel++;
-                //ManageWaves(gameLevel);
                 levelBeat = true;
             }
             if (levelBeat && !bigFire.activeInHierarchy)
@@ -64,10 +64,10 @@ public class GameManagement : MonoBehaviour {
                 bigFire.SetActive(true);
                 barrier.SetActive(false);
             }
-
         }
         //final level
-        if (gameLevel == 4) {
+        if (gameLevel == 4)
+        {
             counter.text = ("Targets Remaining: " + enemyCount);
             if (enemyCount == 0 && !bossUI.activeInHierarchy) {
                 Victory();
@@ -75,9 +75,12 @@ public class GameManagement : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter2D (Collider2D other){
-        if (other.tag == "Player") {            
-            if (!gameStarted) {
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            if (!gameStarted)
+            {
                 gameLevel = 1;
                 gameStarted = true;
                 ManageWaves(gameLevel);
@@ -92,7 +95,8 @@ public class GameManagement : MonoBehaviour {
                 bigFire.SetActive(false);
                 barrier.SetActive(true);
             }
-            else if (gameStarted && !levelBeat) {
+            else if (gameStarted && !levelBeat)
+            {
                 ManageWaves(gameLevel);
                 bigFire.SetActive(false);
                 barrier.SetActive(true);
@@ -100,42 +104,30 @@ public class GameManagement : MonoBehaviour {
         }
     }
 
-    void ManageWaves(int gamelvl) {
-
+    void ManageWaves(int gamelvl)
+    {
         Array.Clear(enemyList, 0, enemyList.Length);
         enemyCount = 0;
-        
 
         switch (gamelvl)
         {
             case 1:
-                //Wave1.SetActive(true);
                 Instantiate(Wave1);
                 Torch1.SetActive(true);
                 break;
             case 2:
-                //Wave1.SetActive(false);
-                //Wave2.SetActive(true);
                 Instantiate(Wave2);
                 Torch2.SetActive(true);
                 break;
             case 3:
-                //Wave1.SetActive(false);
-                //Wave2.SetActive(false);
-                //Wave3.SetActive(true);
                 Instantiate(Wave3);
                 Torch3.SetActive(true);
                 break;
             case 4:
-                //Wave1.SetActive(false);
-                //Wave2.SetActive(false);
-                //Wave3.SetActive(false);
                 bossUI.SetActive(true);
                 Instantiate(FinalWave);
                 Torch4.SetActive(true);
-                //FinalWave.SetActive(true);
                 break;
-
             default:
                 Debug.Log("game doesnt exist");
                 break;
@@ -143,13 +135,12 @@ public class GameManagement : MonoBehaviour {
 
         enemyList = GameObject.FindGameObjectsWithTag("Enemy");
         enemyCount = enemyList.Length;
-
     }
 
-    void Victory() {
+    void Victory()
+    {
         mainCanvas.SetActive(false);
         victoryCanvas.SetActive(true);
         SceneManager.LoadScene("EndGame");
     }
-
 }

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGhostMovement : MonoBehaviour {
+public class EnemyGhostMovement : MonoBehaviour
+{
     public GameObject leftMapEdge;
     public GameObject rightMapEdge;
     public float moveSpeed;
     private Rigidbody2D rig2d;
-	// Use this for initialization
+
 	void Start () {
         //if no speed is selected, default to 1
-        if (moveSpeed == 0) {
+        if (moveSpeed == 0)
+        {
             moveSpeed = 1;
         }
         rig2d = GetComponent<Rigidbody2D>();
@@ -18,9 +20,8 @@ public class EnemyGhostMovement : MonoBehaviour {
         rightMapEdge = GameObject.Find("wallend Right");
 	}
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-        //transform.Translate(moveSpeed * Time.deltaTime, 0, 0, Space.World);
+	void FixedUpdate ()
+    {
         rig2d.velocity = new Vector2(moveSpeed,0f);
 	}
 
@@ -33,12 +34,12 @@ public class EnemyGhostMovement : MonoBehaviour {
         }        
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other)
+    {
         //Turn ghost around once hitting edge of map
         if (other.gameObject.name == leftMapEdge.name || other.gameObject.name == rightMapEdge.name)
         {
             moveSpeed *= -1f;            
         }       
     }
-
 }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Combat : MonoBehaviour {
+public class Enemy_Combat : MonoBehaviour
+{
     [SerializeField] private float currentHealth;
     public float maxHealth;
     public float dealDamageAmnt;
@@ -20,8 +21,8 @@ public class Enemy_Combat : MonoBehaviour {
 
     private bool isDead;
 
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         currentHealth = maxHealth;
         playerCombatScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Controls>();
         gameManagerObject = GameObject.Find("GameManager");
@@ -30,29 +31,21 @@ public class Enemy_Combat : MonoBehaviour {
         isDead = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (currentHealth <= 0 && !isDead) {        
+        if (currentHealth <= 0 && !isDead)
+        {        
             Death();
         }
-
-        
     }
 
-    void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.tag == ("Player")) {
-            DealDamage(dealDamageAmnt);           
-        }
-    }
-
-    /*void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == ("Player"))
         {
-            DealDamage(dealDamageAmnt);
+            DealDamage(dealDamageAmnt);           
         }
-    }*/
+    }
 
     public void TakeDamage(float dmg)
     {
@@ -62,8 +55,6 @@ public class Enemy_Combat : MonoBehaviour {
         {
             currentHealth = 0;
         }
-        //healthSlider.value = health;
-        //healthText.text = health.ToString();
     }
 
     //Destroy game object
@@ -73,6 +64,7 @@ public class Enemy_Combat : MonoBehaviour {
         audio.PlayOneShot(deathSound);
         gameManagerScript.enemyCount -= 1;
         gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+
         if (gameObject.GetComponent<Collider2D>() != null)
         {
             gameObject.GetComponent<Collider2D>().enabled = false;
@@ -81,16 +73,16 @@ public class Enemy_Combat : MonoBehaviour {
         Destroy(gameObject, 0.5f);
     }
 
-    void DealDamage(float damagePlayer) {
+    void DealDamage(float damagePlayer)
+    {
         playerCombatScript.TakeDamage(damagePlayer);
     }
 
-    void DropItems() {
-        //for (int i = 0; i <= itemList.Length;  i ++) {
-        //
-        //  }
-        //if drop chance gets passed
-        if (Random.Range(0f, 1f) <= dropPercent) {
+    void DropItems()
+    {
+        //If drop chance gets passed
+        if (Random.Range(0f, 1f) <= dropPercent)
+        {
             int item = Random.Range(0, itemList.Length);
             Instantiate(itemList[item], transform.position, transform.rotation);
         }
