@@ -2,39 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PauseGame : MonoBehaviour {
+public class PauseGame : MonoBehaviour
+{
     public GameObject mainCanvas;
     public GameObject pauseCanvas;
 
     private bool gameIsPaused;
 
-
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         gameIsPaused = false;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetButtonDown("Cancel")){
+	void Update ()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
             if (!gameIsPaused)
             {
                 GamePause();
                 gameIsPaused = true;
             }
-
-            else if (gameIsPaused) {
+            else if (gameIsPaused)
+            {
                 GameContinue();
                 gameIsPaused = false;
             }
-            
-            
-            
-            
         }	
 	}
 
-    public void GamePause() {
+    public void GamePause()
+    {
         Time.timeScale = 0;
         OpenMenu();
     }
@@ -45,12 +43,14 @@ public class PauseGame : MonoBehaviour {
         CloseMenu();
     }
 
-    void OpenMenu() {
+    void OpenMenu()
+    {
         mainCanvas.SetActive(false);
         pauseCanvas.SetActive(true);
     }
 
-    void CloseMenu() {
+    void CloseMenu()
+    {
         mainCanvas.SetActive(true);
         pauseCanvas.SetActive(false);
     }

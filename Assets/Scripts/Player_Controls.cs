@@ -5,7 +5,8 @@ using UnityStandardAssets._2D;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
-public class Player_Controls : MonoBehaviour {
+public class Player_Controls : MonoBehaviour
+{
     public GameObject sliderGO;
     public GameObject magicMeter;
     public GameObject spellEffect1;
@@ -43,8 +44,8 @@ public class Player_Controls : MonoBehaviour {
     Platformer2DUserControl playerMoveControl;
     GameManagement gManager;
 
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         manaTimer = 0f;
         attackTimer = 0f;
         my_anim = GetComponent<Animator>();
@@ -66,7 +67,6 @@ public class Player_Controls : MonoBehaviour {
         playerMagicSlider.value = (playerMagic / maxPlayerMagic);
     }
 
-    // Update is called once per frame
     void Update()
     {
         targetStart2d = targetStart.position;
@@ -81,36 +81,37 @@ public class Player_Controls : MonoBehaviour {
         {
             Death();
         }
+
         playerMagicSlider.value = (playerMagic / maxPlayerMagic);
-        //increment player attack time interval
         attackTimer += Time.deltaTime;
 
-        //slowly increase players mana over time
         if (manaTimer / 0.5f >= 1f)
         {
             playerMagic += manaRegen;
             manaTimer = 0f;
         }
+
         manaTimer += Time.deltaTime;
-        //dont let magic drop below 0
+
         if (playerMagic <= 0f)
         {
             playerMagic = 0f;
         }
-        //dont let magic go above max
+
         if (playerMagic >= maxPlayerMagic)
         {
             playerMagic = maxPlayerMagic;
         }
+
         myMagic.text = playerMagic.ToString();
         playerMagicSlider.value = (playerMagic / maxPlayerMagic);
-
 
         myHealth.text = playerHealth.ToString();
         playerHealthSlider.value = (playerHealth / maxPlayerHealth);
     }
 
-    void Attack() {
+    void Attack()
+    {
         if (playerMagic < spellCost) {
             return;
         }
@@ -118,26 +119,25 @@ public class Player_Controls : MonoBehaviour {
         //Find where to aim the shot based on mouse position
         Vector3 screenToMouseCursor = mainCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);        
         targetEnd = new Vector2(screenToMouseCursor.x, screenToMouseCursor.y);
+
         //If facing right and aiming right
         if (transform.localScale.x > 0)
         {
             if (Vector2.Dot(Vector2.right, targetEnd - targetStart2d) > 0)
             {
                 Instantiate(spellEffect1, targetStart.position, targetStart.localRotation);
-                // AudioSource audio = GetComponent<AudioSource>();
                 audio.PlayOneShot(spellAttackSound);
             }
         }
+
         //If facing left and aiming left
         else if (transform.localScale.x < 0) {
             if (Vector2.Dot(Vector2.right, targetEnd - targetStart2d) < 0) {
                 Instantiate(spellEffect1, targetStart.position, targetStart.localRotation);
-                //AudioSource audio = GetComponent<AudioSource>();
                 audio.PlayOneShot(spellAttackSound);
             }
         }
         playerMagic -= spellCost;
-        //Reset player attack time interval
         attackTimer = 0;                   
     }
 
@@ -151,10 +151,10 @@ public class Player_Controls : MonoBehaviour {
         }
         myHealth.text = playerHealth.ToString();
         playerHealthSlider.value = (playerHealth/maxPlayerHealth);
-        //playerHealthText.text = playerHealth.ToString();
     }
 
-    public void RestoreRestore(float health, float magic) {
+    public void RestoreRestore(float health, float magic)
+    {
         playerHealth += health;
 
         if (playerHealth >= maxPlayerHealth)
@@ -175,11 +175,8 @@ public class Player_Controls : MonoBehaviour {
     {
         isReviving = true;
         playerMoveControl.enabled = false;
-        //gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
         witchSprites.SetActive(false);
         audio.PlayOneShot(playerDeathSound);
-        //deathFilter.GetComponent<Image>().enabled = true;
-        //deathText.GetComponent<Text>().enabled = true;
         StartCoroutine(DeathPause());
     }
 
@@ -187,11 +184,9 @@ public class Player_Controls : MonoBehaviour {
     IEnumerator DeathPause()
     {
         yield return new WaitForSeconds(2.5f);
-        //Debug.Log ("Resetting");
 
         ResetLevel();
         Revive();
-
     }
 
     //kill off all enemies for fresh start of current level 
@@ -223,21 +218,12 @@ public class Player_Controls : MonoBehaviour {
         myHealth.text =  playerHealth.ToString();
         playerMagic = maxPlayerMagic / 2f;
         myMagic.text = playerMagic.ToString();
-        //Debug.Log ("Reviving");
-        //_pauseScript.enabled = true;
-
-        //_controlScript.enabled = true;
-        //_shootScript.enabled = true;
-        //deathFilter.GetComponent<Image>().enabled = false;
-        //deathText.GetComponent<Text>().enabled = false;
        
         playerHealthSlider.value = (playerHealth / maxPlayerHealth);
         isReviving = false;
         gameObject.transform.position = respawnLocation.transform.position;
-        //gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
+
         witchSprites.SetActive(true);
         playerMoveControl.enabled = true;
-
-        //transform.parent = null;
     }
 }

@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameIgnition : MonoBehaviour {
+public class GameIgnition : MonoBehaviour
+{
     public Button myBtn;
 
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         Button btn = myBtn.GetComponent<Button>();
         btn.onClick.AddListener(StartGame);
 	}
 	
-
-
-    void StartGame() {
+    void StartGame()
+    {
         SceneManager.LoadScene("Main Scene");
     }
 }

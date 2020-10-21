@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyBoss_Combat : MonoBehaviour {
+public class EnemyBoss_Combat : MonoBehaviour
+{
     public GameObject healthMeter;
     [SerializeField] private float currentHealth;
     public float maxHealth;
@@ -22,9 +23,8 @@ public class EnemyBoss_Combat : MonoBehaviour {
     
     private bool isDead;
 
-
-    // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         currentHealth = maxHealth;
         playerCombatScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Controls>();
         gameManagerObject = GameObject.Find("GameManager");
@@ -38,8 +38,8 @@ public class EnemyBoss_Combat : MonoBehaviour {
         isDead = false;
     }
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         if (currentHealth <= 0 && !isDead)
             Death();
 
@@ -47,8 +47,10 @@ public class EnemyBoss_Combat : MonoBehaviour {
         bossTextHealth.text = currentHealth.ToString();
     }
 
-    void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.tag == ("Player")) {
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == ("Player"))
+        {
             DealDamage(dealDamageAmnt);
         }
         canJump = true;
@@ -62,8 +64,6 @@ public class EnemyBoss_Combat : MonoBehaviour {
         {
             currentHealth = 0;
         }
-        //healthSlider.value = health;
-        //healthText.text = health.ToString();
     }
 
     //Destroy game object
@@ -83,7 +83,8 @@ public class EnemyBoss_Combat : MonoBehaviour {
         Destroy(gameObject, 0.5f);
     }
 
-    void DealDamage(float damagePlayer) {
+    void DealDamage(float damagePlayer)
+    {
         playerCombatScript.TakeDamage(damagePlayer);
     }
 }

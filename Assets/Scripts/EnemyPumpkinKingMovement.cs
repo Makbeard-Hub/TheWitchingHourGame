@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPumpkinKingMovement : MonoBehaviour {
+public class EnemyPumpkinKingMovement : MonoBehaviour
+{
     Rigidbody2D rig2d;
     BoxCollider2D playerSensor;
     EnemyBoss_Combat bossCombatScript;
@@ -17,8 +18,8 @@ public class EnemyPumpkinKingMovement : MonoBehaviour {
     public float moveXmag;
     public float moveYmag;
 
-    // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         rig2d = parentGameObj.GetComponent<Rigidbody2D>();
         playerSensor = GetComponent<BoxCollider2D>();
         moveTimer = 0;
@@ -28,11 +29,12 @@ public class EnemyPumpkinKingMovement : MonoBehaviour {
         canIJump = bossCombatScript.canJump;
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         moveTimer += Time.deltaTime;
         canIJump = bossCombatScript.canJump;
-        if (playerInRange && moveTimer > moveTimeDelay && canIJump) {
+        if (playerInRange && moveTimer > moveTimeDelay && canIJump)
+        {
             CheckMoveDirection();
             moveDirection = new Vector2(moveXmag, moveYmag);
             rig2d.AddForce(moveDirection, ForceMode2D.Impulse);
@@ -40,30 +42,32 @@ public class EnemyPumpkinKingMovement : MonoBehaviour {
         }                            
     }
 
-    void OnTriggerStay2D(Collider2D other) {
-        if (other.tag == "Player") {
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
             playerInRange = true;
             player = other.gameObject;           
         }
     }
 
-    void OnTriggerExit2D(Collider2D other) {
-        if (other.tag == "Player") {
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
             playerInRange = false;
         }
     }
 
-    void CheckMoveDirection() {
+    void CheckMoveDirection()
+    {
         if (transform.position.x > player.transform.position.x)
         {
             moveXmag = -Mathf.Abs(moveXmag);
-            
         }
         if (transform.position.x < player.transform.position.x)
         {
             moveXmag = Mathf.Abs(moveXmag);
-            
         }
-        //Debug.DrawRay(transform.right, player.transform.position, Color.red, 3f);
     }
 }
